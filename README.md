@@ -11,23 +11,23 @@ This script aimns to automate the first steps of the QC process for scRNAseq ana
 In here we extract the cont matrix starting from the filtered_feature_bc_matrix, obtained via the cellranger software (10x Genomics) and perform the first steps of quality control.<br />
 To avoid the inclusion of low quality/damaged cells we remove cells according to gene content, mithocondrial gene content, erhitroyd gene content and we filter genes according to their overall expression over the entire sample.<br />
 <br />
-Here is briefly explained the rationale of the Filters: <br />
+Here is briefly explained the rationale. <br />
 ### Per-cell QC metrics (descriptive names):
-.. Library size (UMI counts per cell): total number of captured transcripts per cell.
-.. Molecular complexity (genes detected per cell): number of genes with at least one UMI.
-Expression concentration (top-20 gene fraction): % of total counts contributed by the 20 most expressed 
-Mitochondrial content: % di UMI mapped on mithocondrial genes (stress/apoptosis).
-Erythroid signature: % di UMI mapped on erithorid singature (contamination).
+* Library size (UMI counts per cell): total number of captured transcripts per cell.
+* Molecular complexity (genes detected per cell): number of genes with at least one UMI.
+* Expression concentration (top-20 gene fraction): % of total counts contributed by the 20 most expressed 
+* Mitochondrial content: % di UMI mapped on mithocondrial genes (stress/apoptosis).
+* Erythroid signature: % di UMI mapped on erithorid singature (contamination).
 
 ### Outlier detection (robust to skew):A cell is flagged as an outlier when: ∣x−median(x)∣> k×MAD(x)
-Library size: k=4
-Molecular complexity: k=3
-Expression concentration (top-20): k=3
-Mitochondrial content: k=3 or absolute > 15%
+* Library size: k=4
+* Molecular complexity: k=3
+* Expression concentration (top-20): k=3
+* Mitochondrial content: k=3 or absolute > 15%
 
 ### Hard thresholds:
-Erythroid signature > 5%
-Genes detected per cell < 500
+* Erythroid signature > 5%
+* Genes detected per cell < 500
 
 ### Filtering logic:
 Exclude cells flagged by any criterion above.
