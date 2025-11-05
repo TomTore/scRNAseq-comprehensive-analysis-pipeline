@@ -93,10 +93,12 @@ def process(adata, resolution=0.4):
     return adata
 ```
 <br />
+
 #### Integration
+
 Integration is the process that aims to remove unwanted batch effects arising from different samples in different biological and/or technical conditions.<br />
 Data integration is advisable but it's not always necessary (there could be no batch effect to correct).
-To perform integration we use the [harmonypy package](https://github.com/slowkow/harmonypy) ,a port of the [harmony](https://github.com/immunogenomics/harmony) R package, via the custom function `do_harmony` as follows:<br />
+To perform integration we use the [harmonypy](https://github.com/slowkow/harmonypy) package,a port of the [harmony](https://github.com/immunogenomics/harmony) R package, via the custom function `do_harmony` as follows:<br />
 
 ```
 
