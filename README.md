@@ -24,7 +24,6 @@ Here is briefly explained the rationale. <br />
 * Doublet class: output of [scDblFinder](https://github.com/plger/scDblFinder) identifying cells either as "doublet" or "singlet"
 
 #### Outlier detection (robust to skew): | 𝒙_𝒊  − 𝒎𝒆𝒅(𝑿)|>𝒌∗𝑴𝑨𝑫(𝑿)
-<img width="227" height="29" alt="image" src="https://github.com/user-attachments/assets/62a96443-1257-4031-8598-5e18ab6b5252" />
 
 * X = Library size: k=4
 * X = Molecular complexity: k=3
@@ -32,7 +31,6 @@ Here is briefly explained the rationale. <br />
 * X = Mitochondrial content: k=3 or absolute > 15%
 
 #### Hard thresholds: 𝒙_𝒊 > 𝒌
-<img width="55" height="22" alt="image" src="https://github.com/user-attachments/assets/5048fb5c-5ae0-469b-8ecd-26a26713d5e7" />
 
 * X = Erythroid signature: k = 5%
 * X = Genes detected per cell: k = 500
