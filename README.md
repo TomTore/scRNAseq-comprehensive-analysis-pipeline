@@ -17,21 +17,25 @@ To avoid the inclusion of doublets we used [scDblFinder](https://github.com/plge
 Here is briefly explained the rationale. <br />
 #### Per-cell QC metrics (descriptive names):
 * Library size (UMI counts per cell): total number of captured transcripts per cell.
-* Molecular complexity (genes detected per cell): number of genes with at least one UMI.
+* Molecular complexity (genes detected per cell): number of genes with at least one transcript.
 * Expression concentration (top-20 gene fraction): % of total counts contributed by the 20 most expressed 
 * Mitochondrial content: % of UMI mapped on mithocondrial genes (stress/apoptosis).
 * Erythroid signature: % of UMI mapped on erithorid singature (contamination).
 * Doublet class: output of [scDblFinder](https://github.com/plger/scDblFinder) identifying cells either as "doublet" or "singlet"
 
-#### Outlier detection (robust to skew):A cell is flagged as an outlier when: ∣x−median(x)∣> k×MAD(x)
-* Library size: k=4
-* Molecular complexity: k=3
-* Expression concentration (top-20): k=3
-* Mitochondrial content: k=3 or absolute > 15%
+#### Outlier detection (robust to skew): | 𝒙_𝒊  − 𝒎𝒆𝒅(𝑿)|>𝒌∗𝑴𝑨𝑫(𝑿)
+<img width="227" height="29" alt="image" src="https://github.com/user-attachments/assets/62a96443-1257-4031-8598-5e18ab6b5252" />
 
-#### Hard thresholds:
-* Erythroid signature > 5%
-* Genes detected per cell < 500
+* X = Library size: k=4
+* X = Molecular complexity: k=3
+* X = Expression concentration (top-20): k=3
+* X = Mitochondrial content: k=3 or absolute > 15%
+
+#### Hard thresholds: 𝒙_𝒊 > 𝒌
+<img width="55" height="22" alt="image" src="https://github.com/user-attachments/assets/5048fb5c-5ae0-469b-8ecd-26a26713d5e7" />
+
+* X = Erythroid signature: k = 5%
+* X = Genes detected per cell: k = 500
 
 #### scDblFinder thresholds:
 * Doublet class = "doublet"
@@ -39,7 +43,7 @@ Here is briefly explained the rationale. <br />
 #### Filtering logic:
 Exclude cells flagged by any criterion above. <br />
 Retain samples only if > 100 cells remain after QC.<br />
-Notes: Thresholds are tunable (e.g., use more conservative k=5 in neutrophil-rich or noisy datasets).
+Notes: Thresholds are tunable (e.g., use higher values of k in neutrophil-rich or noisy datasets).
 
 ## 1.Preprocessing.ipynb
 
