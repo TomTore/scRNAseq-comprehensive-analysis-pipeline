@@ -8,22 +8,30 @@ Here  below is a brief description for each script/notebook
 
 ## Prerequisites (upstream data generation and preprocessing)
 
-This repository focuses on downstream analysis of single-cell RNA sequencing data and **does not include raw data processing steps**.
+This repository primarily focuses on downstream analysis of single-cell RNA sequencing data; upstream data generation and preprocessing steps are documented to provide context and reproducible reference examples.
 
 Before running any script or notebook contained in this repository, raw sequencing data must be processed as follows:
 
 1. **FASTQ generation**  
    Raw BCL files must be converted to FASTQ format using either:
-   * [`cellranger mkfastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-mkfastq) (10x Genomics wrapper) 
+   * [`cellranger mkfastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-mkfastq) (10x Genomics wrapper)  
    * Illumina [`bcl2fastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-direct-demultiplexing)
 
 2. **Count matrix generation**  
    Gene–cell count matrices must be generated using:
    * [`cellranger count`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/running-pipelines/cr-gex-count#)
 
-The output of `cellranger count` (i.e. filtered_feature_bc_matrix and raw_feature_bc_matrix) represents the **starting input** for the downstream analyses implemented in this repository.
+The output of `cellranger count` (i.e. `filtered_feature_bc_matrix` and `raw_feature_bc_matrix`) represents the **starting input** for all downstream analyses implemented in this repository. This design choice keeps the pipeline modular while aligning upstream preprocessing with widely adopted community standards.
 
-This design choice allows the pipeline to remain modular and independent from sequencing platform–specific preprocessing steps.<br />
+For completeness, this repository provides **reference examples** illustrating how upstream processing steps are typically executed in an HPC environment:
+* [`cellranger_mkfastq_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_mkfastq_example.sh) 
+* [`cellranger_count_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_count_example.sh)  
+* [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/samplesheet_example.csv)
+
+These scripts are **SLURM-based job templates** and are provided for illustrative purposes only. Resource requests, module loading, file paths, and scheduler directives reflect a **specific institutional HPC configuration** and must be adapted to the local environment.
+
+The `samplesheet_example.csv` illustrates the minimal structure required by `cellranger mkfastq`. Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
+
 <br />
 ## Processing
 
