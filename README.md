@@ -6,7 +6,7 @@ Processes such as manual curation for Cell type identification will need human s
 <br />
 Here  below is a brief description for each script/notebook
 
-## Prerequisites (upstream processing)
+## Prerequisites (upstream data generation and preprocessing)
 
 This repository focuses on downstream analysis of single-cell RNA sequencing data and **does not include raw data processing steps**.
 
