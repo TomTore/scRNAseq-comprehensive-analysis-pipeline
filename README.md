@@ -28,7 +28,7 @@ This design choice allows the pipeline to remain modular and independent from se
 ## Processing
 
 ### First line QC
-The 0.Processing.py script aimns to automate the first steps of the QC process for scRNAseq analysis.<br />
+The ["0.Processing"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/0.Processing.py) script aimns to automate the first steps of the QC process for scRNAseq analysis.<br />
 In here we extract the cont matrix starting from the filtered_feature_bc_matrix, obtained via the cellranger software (10x Genomics) and perform the first steps of quality control.<br />
 To avoid the inclusion of low quality/damaged cells we remove cells according to gene content, mithocondrial gene content, erhitroyd gene content and we filter genes according to their overall expression over the entire sample.<br />
 To avoid the inclusion of doublets we used [scDblFinder](https://github.com/plger/scDblFinder), a package that automatically detects doublets in the samples.
@@ -66,7 +66,7 @@ Notes: Thresholds are tunable (e.g., use higher values of k in neutrophil-rich
 
 
 ### Second line QC & Annotation
-The "1.Integration & Annotation.ipynb" notebook aims to:
+The ["1.Integration & Annotation"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/1.Integration%20%26%20Annotation.ipynb) notebook aims to:
 
 1. Normalize, scale, regress, create UMAP
 2. perform data integration on multiple samples (if necessary)
