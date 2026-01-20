@@ -14,12 +14,12 @@ Before running any script or notebook contained in this repository, raw sequenci
 
 1. **FASTQ generation**  
    Raw BCL files must be converted to FASTQ format using either:
-   * `cellranger mkfastq` (10x Genomics wrapper), or  
-   * Illumina `bcl2fastq` / `BCL Convert`
+   * [`cellranger mkfastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-mkfastq) (10x Genomics wrapper) 
+   * Illumina [`bcl2fastq` / `BCL Convert`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-direct-demultiplexing)
 
 2. **Count matrix generation**  
    Gene–cell count matrices must be generated using:
-   * `cellranger count`
+   * [`cellranger count`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/running-pipelines/cr-gex-count#)
 
 The output of `cellranger count` (i.e. filtered_feature_bc_matrix and raw_feature_bc_matrix) represents the **starting input** for the downstream analyses implemented in this repository.
 
