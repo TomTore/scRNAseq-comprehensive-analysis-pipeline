@@ -1,11 +1,30 @@
 # scRNAseq-comprehensive-analysis-pipeline
 This repository aims to contain and share a series of scripts and notebooks that can be useful throughout the course of a single cell RNA sequencing analysis using [scanpy](https://github.com/scverse/scanpy) python library.<br />
 Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single cell rna sequencing analysis is required to better understand the pipeline.
-All of the following python/R scripts/notebooks are to be considered as general guidelines, sometimes the used parameters will need some fine tuning.<br />
+All of the following python/R scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
 Processes such as manual curation for Cell type identification will need human supervision.<br />
 <br />
 Here  below is a brief description for each script/notebook
 
+## Prerequisites (upstream processing)
+
+This repository focuses on downstream analysis of single-cell RNA sequencing data and **does not include raw data processing steps**.
+
+Before running any script or notebook contained in this repository, raw sequencing data must be processed as follows:
+
+1. **FASTQ generation**  
+   Raw BCL files must be converted to FASTQ format using either:
+   * `cellranger mkfastq` (10x Genomics wrapper), or  
+   * Illumina `bcl2fastq` / `BCL Convert`
+
+2. **Count matrix generation**  
+   Gene–cell count matrices must be generated using:
+   * `cellranger count`
+
+The output of `cellranger count` (i.e. filtered_feature_bc_matrix and raw_feature_bc_matrix) represents the **starting input** for the downstream analyses implemented in this repository.
+
+This design choice allows the pipeline to remain modular and independent from sequencing platform–specific preprocessing steps.<br />
+<br />
 ## 0.Preprocessing.py
 
 ### First line QC
