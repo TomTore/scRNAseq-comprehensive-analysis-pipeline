@@ -30,8 +30,8 @@ For completeness, this repository provides **reference examples** illustrating h
 These scripts are **SLURM-based job templates** and are provided for illustrative purposes only. Resource requests, module loading, file paths, and scheduler directives reflect a **specific institutional HPC configuration** and must be adapted to the local environment.
 
 The [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/samplesheet_example.csv) illustrates the minimal structure required by `cellranger mkfastq`. Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
-
 <br />
+
 ## Processing
 
 ### First line QC
