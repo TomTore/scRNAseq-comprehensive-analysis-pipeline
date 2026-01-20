@@ -62,10 +62,11 @@ Exclude cells flagged by any criterion above. <br />
 Retain samples only if > 100 cells remain after QC.<br />
 Notes: Thresholds are tunable (e.g., use higher values of k in neutrophil-rich or noisy datasets).
 
-## 1.Preprocessing.ipynb
+## Integration & Annotation
+
 
 ### Second line QC & Annotation
-This notebook aims to:
+The "1.Integration & Annotation.ipynb" notebook aims to:
 
 1. Normalize, scale, regress, create UMAP
 2. perform data integration on multiple samples (if necessary)
