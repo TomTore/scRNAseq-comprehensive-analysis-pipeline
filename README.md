@@ -26,11 +26,10 @@ The output of `cellranger count` (i.e. `filtered_feature_bc_matrix` and `raw_fea
 For completeness, this repository provides **reference examples** illustrating how upstream processing steps are typically executed in an HPC environment:
 * [`cellranger_mkfastq_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_mkfastq_example.sh) 
 * [`cellranger_count_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_count_example.sh)  
-* [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/samplesheet_example.csv)
 
 These scripts are **SLURM-based job templates** and are provided for illustrative purposes only. Resource requests, module loading, file paths, and scheduler directives reflect a **specific institutional HPC configuration** and must be adapted to the local environment.
 
-The `samplesheet_example.csv` illustrates the minimal structure required by `cellranger mkfastq`. Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
+The [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/samplesheet_example.csv) illustrates the minimal structure required by `cellranger mkfastq`. Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
 
 <br />
 ## Processing
