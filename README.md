@@ -1,10 +1,10 @@
 # scRNAseq-comprehensive-analysis-pipeline
-This repository aims to contain and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using [scanpy](https://github.com/scverse/scanpy) python library.<br />
-Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single-cell rna sequencing analysis is required to better understand the pipeline.
+This repository aims to collect and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using [scanpy](https://github.com/scverse/scanpy) python library.<br />
+Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single-cell RNA sequencing analysis is required to better understand the pipeline.
 All of the following python/R scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
 Processes such as manual curation for Cell type identification will need human supervision.<br />
 <br />
-Here  below is a brief description for each script/notebook
+Here below is a brief description for each script/notebook
 
 ## Prerequisites (upstream data generation and preprocessing)
 
@@ -35,18 +35,18 @@ The [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensiv
 ## Processing
 
 ### First line QC
-The ["0.Processing"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/0.Processing.py) script aimns to automate the first steps of the QC process for scRNAseq analysis.<br />
-In here we extract the cont matrix starting from the filtered_feature_bc_matrix, obtained via the cellranger software (10x Genomics) and perform the first steps of quality control.<br />
-To avoid the inclusion of low quality/damaged cells we remove cells according to gene content, mithocondrial gene content, erhitroyd gene content and we filter genes according to their overall expression over the entire sample.<br />
-To avoid the inclusion of doublets we used [scDblFinder](https://github.com/plger/scDblFinder), a package that automatically detects doublets in the samples.
+The ["0.Processing"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/0.Processing.py) script aims to automate the first steps of the QC process for scRNAseq analysis.<br />
+In here we extract the count matrix starting from the filtered_feature_bc_matrix, obtained via the cellranger software (10x Genomics) and perform the first steps of quality control.<br />
+To avoid the inclusion of low quality/damaged cells we remove cells according to gene content, mitochondrial gene content, erythroid gene content and we filter genes according to their overall expression over the entire sample.<br />
+To avoid the inclusion of doublets we use [scDblFinder](https://github.com/plger/scDblFinder), a package that automatically detects doublets in the samples.
 <br />
 Here is briefly explained the rationale. <br />
 #### Per-cell QC metrics (descriptive names):
 * Library size (UMI counts per cell): total number of captured transcripts per cell.
 * Molecular complexity (genes detected per cell): number of genes with at least one transcript.
 * Expression concentration (top-20 gene fraction): % of total counts contributed by the 20 most expressed 
-* Mitochondrial content: % of UMI mapped on mithocondrial genes (stress/apoptosis).
-* Erythroid signature: % of UMI mapped on erithorid singature (contamination).
+* Mitochondrial content: % of UMI mapped to mitochondrial genes (stress/apoptosis).
+* Erythroid signature: % of UMI mapped to erythroid genes (erythroid contamination).
 * Doublet class: output of [scDblFinder](https://github.com/plger/scDblFinder) identifying cells either as "doublet" or "singlet"
 
 #### Outlier detection (robust to skew): | 𝒙_𝒊  − 𝒎𝒆𝒅(𝑿)|>𝒌∗𝑴𝑨𝑫(𝑿)
@@ -76,8 +76,8 @@ Notes: Thresholds are tunable (e.g., use higher values of k in neutrophil-rich
 The ["1.Integration & Annotation"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/1.Integration%20%26%20Annotation.ipynb) notebook aims to:
 
 1. Normalize, scale, regress, create UMAP
-2. perform data integration on multiple samples (if necessary)
-3. evaluate batch effects and QC metrics generated in the first script "0.Preprocessing.py"
+2. Perform data integration on multiple samples (if necessary)
+3. Evaluate batch effects and QC metrics generated in the first script "0.Preprocessing.py"
 4. Annotate putative cell types through a manual curation supported by an automated annotation algorithm
 
 #### Normalization
@@ -126,8 +126,8 @@ def process(adata, resolution=0.4):
 #### Integration
 
 Integration is the process that aims to remove unwanted batch effects arising from different samples in different biological and/or technical conditions.<br />
-Data integration is advisable but it's not always necessary (there could be no batch effect to correct).
-To perform integration we use the [harmonypy](https://github.com/slowkow/harmonypy) package,a port of the [harmony](https://github.com/immunogenomics/harmony) R package, via the custom function `do_harmony` as follows:<br />
+Data integration is advisable but it's not always required (there could be no batch effect to correct).
+To perform integration we use the [harmonypy](https://github.com/slowkow/harmonypy) package, a port of the [harmony](https://github.com/immunogenomics/harmony) R package, via the custom function `do_harmony` as follows:<br />
 
 ```
 
@@ -169,16 +169,21 @@ def do_harmony(adata_to_harmonize, resolution=0.4, batch_column='orig.ident'):
 #### QC Metrics evaluation
 
 To evaluate the QC metrics of the first script we now simply use the `scanpy.pl.umap` or the `scanpy.pl.embedding` (for `scanpy.pl.embedding` it is necessary to specify the `basis` parameter either as `X_umap` or as `X_harmony_umap_{batch_column}` ).<br />
-If one or more of the QC metrics is all clustered together on the UMAP  (eg: mithocondrial gene content) then it would be advisable to rerun the 0.Preprocessing.py and/or the `process` and `do_harmony` functions with different parameter.
+If one or more of the QC metrics is all clustered together on the UMAP  (eg: mitochondrial gene content) then it would be advisable to rerun the 0.Preprocessing.py and/or the `process` and `do_harmony` functions with different parameter.
 
 #### Manual & Automated Annotation
 
 To annotate putative cell types we use:
-* canonical Markers (i.e. cell type markers known in literature)
-* an automated annotation logistic classifier provided in the [celltypist](https://github.com/Teichlab/celltypist) package
+* Canonical Markers (i.e. cell type markers known in literature)
+* A logistic regression–based classifier provided in the [celltypist](https://github.com/Teichlab/celltypist) package
 * Differential gene expression analysis on the cells cluster through `scanpy.tl.rank_genes_groups`. <br />
-Once all the results have been interpreted cell identities can be correctly assigned to the clusters and eliminate the unknown cells. <br />
-Note that this step requires a lot of time and dedication, be prepared to rerun clustering multiple times with different parameters and remember that you can assign the same cell type identity to multiple clusters (so it's usually better to start with an high resolution clustering)
+Once all results have been interpreted, clusters can be assigned to specific cell identities, while unassigned cells may be optionally excluded or relabeled. <br />
+Note that this step requires substantial time and manual effort. Be prepared to rerun clustering multiple times using different parameters, and keep in mind that the same cell type identity can be assigned to multiple clusters (thus, starting from a high-resolution clustering is often preferable).
+---
+
+Overall, this repository is intended as a flexible and modular framework rather than a rigid, one-size-fits-all solution.  
+Users are encouraged to adapt parameters, thresholds, and analytical choices to the biological context and characteristics of their own datasets.
+
 
 
 
