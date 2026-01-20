@@ -1,6 +1,6 @@
 # scRNAseq-comprehensive-analysis-pipeline
-This repository aims to contain and share a series of scripts and notebooks that can be useful throughout the course of a single cell RNA sequencing analysis using [scanpy](https://github.com/scverse/scanpy) python library.<br />
-Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single cell rna sequencing analysis is required to better understand the pipeline.
+This repository aims to contain and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using [scanpy](https://github.com/scverse/scanpy) python library.<br />
+Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single-cell rna sequencing analysis is required to better understand the pipeline.
 All of the following python/R scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
 Processes such as manual curation for Cell type identification will need human supervision.<br />
 <br />
