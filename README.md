@@ -25,10 +25,10 @@ The output of `cellranger count` (i.e. filtered_feature_bc_matrix and raw_featur
 
 This design choice allows the pipeline to remain modular and independent from sequencing platform–specific preprocessing steps.<br />
 <br />
-## 0.Preprocessing.py
+## Processing
 
 ### First line QC
-This script aimns to automate the first steps of the QC process for scRNAseq analysis.<br />
+The 0.Processing.py script aimns to automate the first steps of the QC process for scRNAseq analysis.<br />
 In here we extract the cont matrix starting from the filtered_feature_bc_matrix, obtained via the cellranger software (10x Genomics) and perform the first steps of quality control.<br />
 To avoid the inclusion of low quality/damaged cells we remove cells according to gene content, mithocondrial gene content, erhitroyd gene content and we filter genes according to their overall expression over the entire sample.<br />
 To avoid the inclusion of doublets we used [scDblFinder](https://github.com/plger/scDblFinder), a package that automatically detects doublets in the samples.
