@@ -17,9 +17,9 @@ Raw sequencing data in BCL format are converted to FASTQ files using standard de
 * [`cellranger mkfastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-mkfastq), a 10x Genomics wrapper around Illumina demultiplexing tools  
 * Alternatively, Illumina [`bcl2fastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-direct-demultiplexing)
 This repository provides a reference SLURM-based job script illustrating a typical HPC execution of `cellranger mkfastq`:
-* [`cellranger_mkfastq_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_mkfastq_example.sh)
+* [`cellranger_mkfastq_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/scripts/cellranger_mkfastq_example.sh)
 In addition, a minimal example of a sample sheet compatible with `cellranger mkfastq` is provided:
-* [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/samplesheet_example.csv)
+* [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/templates/samplesheet_example.csv)
 Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
 
 ### Count matrix generation and preprocessing (Cell Ranger count)
@@ -29,13 +29,13 @@ Gene–cell count matrices are generated from FASTQ files using the 10x Genomics
 This step produces both `raw_feature_bc_matrix` and `filtered_feature_bc_matrix` outputs.  
 The `filtered_feature_bc_matrix` is used as the primary input for all downstream analyses implemented in this repository, including quality control, integration, clustering, and annotation.
 A reference SLURM-based job script illustrating a typical HPC execution of `cellranger count` is provided:
-* [`cellranger_count_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_count_example.sh)
+* [`cellranger_count_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/scripts/cellranger_count_example.sh)
 All upstream scripts are provided as **reference templates**. Resource requests, module loading, file paths, and scheduler directives reflect a specific institutional HPC configuration and must be adapted to the local computing environment.
 <br />
 
 ## Processing
 
-The ["0.Processing"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/0.Processing.py) script aims to automate the first steps of the QC process for scRNAseq analysis.<br />
+The ["0.Processing"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/scripts/0.Processing.py) script aims to automate the first steps of the QC process for scRNAseq analysis.<br />
 In here we extract the count matrix starting from the filtered_feature_bc_matrix, obtained via the cellranger software (10x Genomics) and perform the first steps of quality control.<br />
 To avoid the inclusion of low quality/damaged cells we remove cells according to gene content, mitochondrial gene content, erythroid gene content and we filter genes according to their overall expression over the entire sample.<br />
 To avoid the inclusion of doublets we use [scDblFinder](https://github.com/plger/scDblFinder), a package that automatically detects doublets in the samples.
@@ -71,7 +71,7 @@ Notes: Thresholds are tunable (e.g., use higher values of k in neutrophil-rich
 
 ## From Integration to Annotation
 
-The ["1.Integration & Annotation"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/1.Integration%20%26%20Annotation.ipynb) notebook aims to:
+The ["1.Integration & Annotation"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/scripts/1.Integration%20%26%20Annotation.ipynb) notebook aims to:
 
 1. Normalize, scale, regress, create UMAP
 2. Perform data integration on multiple samples (if necessary)
