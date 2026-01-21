@@ -1,5 +1,5 @@
 # scRNAseq-comprehensive-analysis-pipeline
-This repository aims to collect and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using 10xGenomics [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest) and [scanpy](https://github.com/scverse/scanpy) python library.<br />
+This project aims to collect and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using 10x Genomics [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest) and [scanpy](https://github.com/scverse/scanpy) python library.<br />
 Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single-cell RNA sequencing analysis is required to better understand the pipeline.
 All of the following scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
 Processes such as manual curation for Cell type identification will need human supervision.<br />
@@ -9,7 +9,7 @@ Here below is a brief description for each step of the process providing script/
 ## Data generation and Preprocessing
 
 This section describes the upstream steps required to generate and preprocess single-cell RNA sequencing data prior to downstream analysis.  
-The repository provides reference scripts and examples illustrating standard workflows based on 10x Genomics Cell Ranger, which can be integrated with the downstream scanpy based analyses described in the later sections.
+Reference scripts and examples are provided to illustrate standard workflows based on 10x Genomics Cell Ranger, which can be integrated with the downstream analyses described in the later sections.
 
 ### FASTQ generation
 
@@ -179,9 +179,10 @@ Once all results have been interpreted, clusters can be assigned to specific cel
 Note that this step requires substantial time and manual effort. Be prepared to rerun clustering multiple times using different parameters, and keep in mind that the same cell type identity can be assigned to multiple clusters (thus, starting from a high-resolution clustering is often preferable).
 ---
 
-Overall, this repository is intended as a flexible and modular framework rather than a rigid, one-size-fits-all solution.  
-Users are encouraged to adapt parameters, thresholds, and analytical choices to the biological context and characteristics of their own datasets.
+Overall, the proposed framework is intended as a flexible and modular solution rather than a rigid, one-size-fits-all pipeline.  
+Users are encouraged to adapt parameters, thresholds, and analytical choices to the biological context and characteristics of their own datasets. <br />
 
+**Software versions used for testing (reference run):** Cell Ranger v7.1.0; Python 3.12.7; Scanpy v1.10.1; harmonypy v0.0.10; CellTypist v1.6.3; scDblFinder (R) v1.24.0.
 
 
 
