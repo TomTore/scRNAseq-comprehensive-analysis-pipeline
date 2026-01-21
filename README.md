@@ -182,7 +182,7 @@ Note that this step requires substantial time and manual effort. Be prepared to 
 Overall, the proposed framework is intended as a flexible and modular solution rather than a rigid, one-size-fits-all pipeline.  
 Users are encouraged to adapt parameters, thresholds, and analytical choices to the biological context and characteristics of their own datasets. <br />
 
-**Software versions used for testing (reference run):** Cell Ranger v7.1.0; Python 3.12.7; Scanpy v1.10.1; harmonypy v0.0.10; CellTypist v1.6.3; scDblFinder (R) v1.24.0.
+**Software versions used for testing:** Cell Ranger v7.1.0; Python 3.12.7; Scanpy v1.10.1; harmonypy v0.0.10; CellTypist v1.6.3; scDblFinder (R) v1.24.0.
 
 
 
