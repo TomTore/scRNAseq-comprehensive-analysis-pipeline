@@ -1,8 +1,7 @@
 # scRNAseq-comprehensive-analysis-pipeline
-This project aims to collect and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using 10x Genomics [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest) and [scanpy](https://github.com/scverse/scanpy) python library.<br />
+This project aims to collect and share a series of scripts and notebooks that can be applied throughout a single-cell RNA sequencing analysis using 10x Genomics [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest) and the [scanpy](https://github.com/scverse/scanpy) python library.<br />
 Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single-cell RNA sequencing analysis is required to better understand the pipeline.
-All of the following scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
-Processes such as manual curation for Cell type identification will need human supervision.<br />
+All of the following scripts/notebooks are to be considered as general guidelines, sometimes used parameters may require fine-tuning depending on the dataset.<br /> Processes such as manual curation for cell type identification will need human supervision.<br />
 <br />
 Below is a concise overview of each step of the workflow, with the corresponding scripts and notebooks provided.
 
