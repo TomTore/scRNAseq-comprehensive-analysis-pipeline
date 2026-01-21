@@ -1,47 +1,47 @@
 # scRNAseq-comprehensive-analysis-pipeline
-This repository aims to collect and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using [scanpy](https://github.com/scverse/scanpy) python library.<br />
+This repository aims to collect and share a series of scripts and notebooks that can be useful throughout the course of a single-cell RNA sequencing analysis using 10xGenomics [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest) and [scanpy](https://github.com/scverse/scanpy) python library.<br />
 Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single-cell RNA sequencing analysis is required to better understand the pipeline.
-All of the following python/R scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
+All of the following scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
 Processes such as manual curation for Cell type identification will need human supervision.<br />
 <br />
-Here below is a brief description for each script/notebook
+Here below is a brief description for each step of the process providing script/notebook for each.
 
-## Prerequisites (upstream data generation and preprocessing)
+## Data generation and Preprocessing
 
-This repository primarily focuses on downstream analysis of single-cell RNA sequencing data; upstream data generation and preprocessing steps are documented to provide context and reproducible reference examples.
+This section describes the upstream steps required to generate and preprocess single-cell RNA sequencing data prior to downstream analysis.  
+The repository provides reference scripts and examples illustrating standard workflows based on 10x Genomics Cell Ranger, which can be integrated with the downstream scanpy based analyses described in the later sections.
 
-Before running any script or notebook contained in this repository, raw sequencing data must be processed as follows:
+### FASTQ generation
 
-1. **FASTQ generation**  
-   Raw BCL files must be converted to FASTQ format using either:
-   * [`cellranger mkfastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-mkfastq) (10x Genomics wrapper)  
-   * Illumina [`bcl2fastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-direct-demultiplexing)
+Raw sequencing data in BCL format are converted to FASTQ files using standard demultiplexing workflows. In the context of 10x Genomics data, this step is typically performed using:
+* [`cellranger mkfastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-mkfastq), a 10x Genomics wrapper around Illumina demultiplexing tools  
+* Alternatively, Illumina [`bcl2fastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-direct-demultiplexing)
+This repository provides a reference SLURM-based job script illustrating a typical HPC execution of `cellranger mkfastq`:
+* [`cellranger_mkfastq_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_mkfastq_example.sh)
+In addition, a minimal example of a sample sheet compatible with `cellranger mkfastq` is provided:
+* [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/samplesheet_example.csv)
+Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
 
-2. **Count matrix generation**  
-   Gene–cell count matrices must be generated using:
-   * [`cellranger count`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/running-pipelines/cr-gex-count#)
+### Count matrix generation and preprocessing (Cell Ranger count)
 
-The output of `cellranger count` (i.e. `filtered_feature_bc_matrix` and `raw_feature_bc_matrix`) represents the **starting input** for all downstream analyses implemented in this repository. This design choice keeps the pipeline modular while aligning upstream preprocessing with widely adopted community standards.
-
-For completeness, this repository provides **reference examples** illustrating how upstream processing steps are typically executed in an HPC environment:
-* [`cellranger_mkfastq_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_mkfastq_example.sh) 
-* [`cellranger_count_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_count_example.sh)  
-
-These scripts are **SLURM-based job templates** and are provided for illustrative purposes only. Resource requests, module loading, file paths, and scheduler directives reflect a **specific institutional HPC configuration** and must be adapted to the local environment.
-
-The [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/samplesheet_example.csv) illustrates the minimal structure required by `cellranger mkfastq`. Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
+Gene–cell count matrices are generated from FASTQ files using the 10x Genomics alignment and quantification pipeline:
+* [`cellranger count`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/running-pipelines/cr-gex-count#)
+This step produces both `raw_feature_bc_matrix` and `filtered_feature_bc_matrix` outputs.  
+The `filtered_feature_bc_matrix` is used as the primary input for all downstream analyses implemented in this repository, including quality control, integration, clustering, and annotation.
+A reference SLURM-based job script illustrating a typical HPC execution of `cellranger count` is provided:
+* [`cellranger_count_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/cellranger_count_example.sh)
+All upstream scripts are provided as **reference templates**. Resource requests, module loading, file paths, and scheduler directives reflect a specific institutional HPC configuration and must be adapted to the local computing environment.
 <br />
 
 ## Processing
 
-### First line QC
 The ["0.Processing"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/0.Processing.py) script aims to automate the first steps of the QC process for scRNAseq analysis.<br />
 In here we extract the count matrix starting from the filtered_feature_bc_matrix, obtained via the cellranger software (10x Genomics) and perform the first steps of quality control.<br />
 To avoid the inclusion of low quality/damaged cells we remove cells according to gene content, mitochondrial gene content, erythroid gene content and we filter genes according to their overall expression over the entire sample.<br />
 To avoid the inclusion of doublets we use [scDblFinder](https://github.com/plger/scDblFinder), a package that automatically detects doublets in the samples.
 <br />
 Here is briefly explained the rationale. <br />
-#### Per-cell QC metrics (descriptive names):
+### Per-cell QC metrics (descriptive names):
 * Library size (UMI counts per cell): total number of captured transcripts per cell.
 * Molecular complexity (genes detected per cell): number of genes with at least one transcript.
 * Expression concentration (top-20 gene fraction): % of total counts contributed by the 20 most expressed 
@@ -49,30 +49,28 @@ Here is briefly explained the rationale. <br />
 * Erythroid signature: % of UMI mapped to erythroid genes (erythroid contamination).
 * Doublet class: output of [scDblFinder](https://github.com/plger/scDblFinder) identifying cells either as "doublet" or "singlet"
 
-#### Outlier detection (robust to skew): | 𝒙_𝒊  − 𝒎𝒆𝒅(𝑿)|>𝒌∗𝑴𝑨𝑫(𝑿)
+### Outlier detection (robust to skew): | 𝒙_𝒊  − 𝒎𝒆𝒅(𝑿)|>𝒌∗𝑴𝑨𝑫(𝑿)
 
 * X = Library size: k=4
 * X = Molecular complexity: k=3
 * X = Expression concentration (top-20): k=3
 * X = Mitochondrial content: k=3 or absolute > 15%
 
-#### Hard thresholds: 𝒙_𝒊 > 𝒌
+### Hard thresholds: 𝒙_𝒊 > 𝒌
 
 * X = Erythroid signature: k = 5%
 * X = Genes detected per cell: k = 500
 
-#### scDblFinder thresholds:
+### scDblFinder thresholds:
 * Doublet class = "doublet"
 
-#### Filtering logic:
+### Filtering logic:
 Exclude cells flagged by any criterion above. <br />
 Retain samples only if > 100 cells remain after QC.<br />
 Notes: Thresholds are tunable (e.g., use higher values of k in neutrophil-rich or noisy datasets).
 
-## Integration & Annotation
+## From Integration to Annotation
 
-
-### Second line QC & Annotation
 The ["1.Integration & Annotation"](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/1.Integration%20%26%20Annotation.ipynb) notebook aims to:
 
 1. Normalize, scale, regress, create UMAP
@@ -80,7 +78,7 @@ The ["1.Integration & Annotation"](https://github.com/TomTore/scRNAseq-comprehen
 3. Evaluate batch effects and QC metrics generated in the first script "0.Preprocessing.py"
 4. Annotate putative cell types through a manual curation supported by an automated annotation algorithm
 
-#### Normalization
+### Normalization
 
 To normalize, scale, perform the regression and create the UMAP, we use a custom function called `process`. <br />
 The `process` function calls several other modules and functions provided by the scanpy package as follows: <br />
@@ -123,7 +121,7 @@ def process(adata, resolution=0.4):
 ```
 <br />
 
-#### Integration
+### Integration
 
 Integration is the process that aims to remove unwanted batch effects arising from different samples in different biological and/or technical conditions.<br />
 Data integration is advisable but it's not always required (there could be no batch effect to correct).
@@ -166,12 +164,12 @@ def do_harmony(adata_to_harmonize, resolution=0.4, batch_column='orig.ident'):
     return adata
 ```
 
-#### QC Metrics evaluation
+### QC Metrics evaluation
 
 To evaluate the QC metrics of the first script we now simply use the `scanpy.pl.umap` or the `scanpy.pl.embedding` (for `scanpy.pl.embedding` it is necessary to specify the `basis` parameter either as `X_umap` or as `X_harmony_umap_{batch_column}` ).<br />
 If one or more of the QC metrics is all clustered together on the UMAP  (eg: mitochondrial gene content) then it would be advisable to rerun the 0.Preprocessing.py and/or the `process` and `do_harmony` functions with different parameter.
 
-#### Manual & Automated Annotation
+### Manual & Automated Annotation
 
 To annotate putative cell types we use:
 * Canonical Markers (i.e. cell type markers known in literature)
