@@ -23,7 +23,7 @@ This repository provides reference SLURM-based job scripts illustrating a typica
 
 Note that sample index sequences (e.g. 10x Genomics SI index sets) should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
 
-### Count matrix generation and preprocessing (Cell Ranger count)
+### Count matrix generation and preprocessing
 
 Gene–cell count matrices are generated from FASTQ files using the 10x Genomics alignment and quantification pipeline:
 * [`cellranger count`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/running-pipelines/cr-gex-count#)
