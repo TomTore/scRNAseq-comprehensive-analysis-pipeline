@@ -1,4 +1,4 @@
-# scRNAseq-comprehensive-analysis-pipeline <img align="right" style="margin-left: 30px; margin-bottom: 10px;" width="160" src="assets/umap.png"/>
+# scRNAseq-comprehensive-analysis-pipeline <img align="right" style="margin-left: 30px; margin-bottom: 20px;" width="160" src="assets/umap.png"/>
 
 This project aims to collect and share a series of scripts and notebooks that can be applied throughout a single-cell RNA sequencing analysis using 10x Genomics [Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest) and the [scanpy](https://github.com/scverse/scanpy) python library.<br />
 Note that this repository will not contain all the detailed explanation of the individual analytical processes and for this reason, it will only serve to share/display the pipeline, therefore a basic knowledge of single-cell RNA sequencing analysis is required to better understand the pipeline.
