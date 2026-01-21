@@ -16,13 +16,12 @@ Reference scripts and examples are provided to illustrate standard workflows bas
 Raw sequencing data in BCL format are converted to FASTQ files using standard demultiplexing workflows. In the context of 10x Genomics data, this step is typically performed using:
 * [`cellranger mkfastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-mkfastq), a 10x Genomics wrapper around Illumina demultiplexing tools  
 * Alternatively, Illumina [`bcl2fastq`](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-direct-demultiplexing)
-  
-This repository provides a reference SLURM-based job script illustrating a typical HPC execution of `cellranger mkfastq`:
+
+This repository provides reference SLURM-based job scripts illustrating a typical HPC execution of `cellranger mkfastq`, together with a minimal example of a compatible sample sheet:
 * [`cellranger_mkfastq_example.sh`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/scripts/cellranger_mkfastq_example.sh)
-  
-In addition, a minimal example of a sample sheet compatible with `cellranger mkfastq` is provided:
 * [`samplesheet_example.csv`](https://github.com/TomTore/scRNAseq-comprehensive-analysis-pipeline/blob/main/templates/samplesheet_example.csv)
-Sample index sequences (e.g. 10x Genomics SI index sets) are not reproduced here and should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
+
+Note that sample index sequences (e.g. 10x Genomics SI index sets) should always be retrieved from the official [10x Genomics documentation](https://www.10xgenomics.com/support).
 
 ### Count matrix generation and preprocessing (Cell Ranger count)
 
