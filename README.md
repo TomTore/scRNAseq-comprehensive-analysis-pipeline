@@ -4,7 +4,7 @@ Note that this repository will not contain all the detailed explanation of the i
 All of the following scripts/notebooks are to be considered as general guidelines, sometimes used parameters will need some fine tuning.<br />
 Processes such as manual curation for Cell type identification will need human supervision.<br />
 <br />
-Here below is a brief description for each step of the process providing script/notebook for each.
+Below is a concise overview of each step of the workflow, with the corresponding scripts and notebooks provided.
 
 ## Data generation and Preprocessing
 
